@@ -1,0 +1,77 @@
+{% extends "header_bookkeeping.html" %}
+{% block bookkeeping %}
+<a href="{{ url_for('trial_balance', currency='satoshis')}}">Satoshis</a>
+<a href="{{ url_for('trial_balance', currency='usd')}}">USD</a>
+<hr>
+<a href="{{ url_for('trial_balance', currency=currency)}}">Current</a>
+{% for period in periods %}
+<a href="{{ url_for('trial_balance_historical', currency=currency, groupby='Monthly', period=period[0])}}">{{period[0]}}</a>
+{% endfor %}
+<hr>
+  <h2>
+   Unadjusted Trial Balance 
+  </h2>
+  <h3>
+   As of {{period.strftime("%B %d, %Y")}}
+  </h3>
+    <table border="1">
+      <tr>
+        <th>
+          Account
+        </th>
+        <th>
+          Debit
+        </th>
+        <th>
+          Credit
+        </th>
+      </tr>
+      {% for account in accounts %}
+        <tr>
+         <td>
+          {{account['accountName']}}
+         </td>
+          <td align="right">
+           {% if account['debitBalance'] > 0 %}
+            <a href="{{ url_for('ledger', accountName=account.accountName, groupby='All', currency=currency)}}">
+             {% if currency == 'satoshis' %}
+            {{format_satoshis(account['debitBalance'])}}
+            {% elif currency == 'usd' %}
+            {{format_usd(account['debitBalance'])}}
+            {% endif %}
+            </a>
+            {% endif %}
+          </td>
+          <td align="right">
+           {% if account['creditBalance'] > 0 %}
+            <a href="{{ url_for('ledger', accountName=account.accountName, groupby='All', currency=currency)}}">
+            {% if currency == 'satoshis' %}
+           {{format_satoshis(account['creditBalance'])}}
+           {% elif currency == 'usd' %}
+           {{format_usd(account['creditBalance'])}}
+           {% endif %}
+            </a>
+           {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+      <tr>
+       <td>
+       </td>
+       <td>
+        {% if currency == 'satoshis' %}
+       {{format_satoshis(totalDebits)}}
+       {% elif currency == 'usd' %}
+       {{format_usd(totalDebits)}}
+       {% endif %}
+       </td>
+       <td>
+        {% if currency == 'satoshis' %}
+       {{format_satoshis(totalCredits)}}
+       {% elif currency == 'usd' %}
+       {{format_usd(totalCredits)}}
+       {% endif %}
+       </td>
+      </tr>
+    </table>
+{% endblock %}

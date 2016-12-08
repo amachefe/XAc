@@ -1,0 +1,68 @@
+{% extends "header_bookkeeping.html" %}
+{% block bookkeeping %}
+<a href="{{ url_for('general_journal', currency='satoshis')}}">Satoshis</a>
+<a href="{{ url_for('general_journal', currency='usd')}}">USD</a>
+<hr>
+
+  <h1>
+    General Journal
+  </h1>
+  {% if journal_entries %}
+    <table border="1">
+      <tr>
+        <th>
+          Date
+        </th>
+        <th>
+          Account
+        </th>
+        <th>
+          Debit
+        </th>
+        <th>
+          Credit
+        </th>
+      </tr>
+      {% for journal_entry in journal_entries %}
+          {% for ledger_entry in journal_entry.ledgerentries %}
+          <tr>
+           <td>
+            {% if journal_entry.ledgerentries[0] == ledger_entry %}
+            {{journal_entry.ledgerentries[0].date}}
+            {% endif %}
+           </td>
+          <td>
+            <a href="{{ url_for('ledger', accountName=ledger_entry.ledger, currency=currency, groupby='All')}}">
+            {{ledger_entry.ledger}}
+          </td>
+          <td align="right">
+            {% if ledger_entry.tside == 'debit' %}
+              <a href="{{ url_for('journal_entry', id=ledger_entry.journal_entry_id)}}">
+               {% if ledger_entry.currency == 'satoshis' %}
+                {{format_satoshis(ledger_entry.amount)}}
+               {% elif ledger_entry.currency == 'usd' %}
+                {{format_usd(ledger_entry.amount)}}
+               {% endif %}
+              </a>
+            {% endif %}
+          </td>
+          <td align="right">
+            {% if ledger_entry.tside == 'credit' %}
+              <a href="{{ url_for('journal_entry', id=ledger_entry.journal_entry_id)}}">
+                {% if ledger_entry.currency == 'satoshis' %}
+                 {{format_satoshis(ledger_entry.amount)}}
+                {% elif ledger_entry.currency == 'usd' %}
+                 {{format_usd(ledger_entry.amount)}}
+                {% endif %} 
+              </a>
+            {% endif %}
+          </td>
+         </tr>
+          {% endfor %}
+
+      {% endfor %}
+    </table>
+  {% else %}
+  No journal entries have been recorded.
+  {% endif %}
+{% endblock %}

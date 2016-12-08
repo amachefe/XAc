@@ -1,0 +1,89 @@
+{% extends "header_configure.html" %}
+{% block configure %}
+
+<h2>
+  New Account
+</h2>
+
+<form  action="/Configure/ChartOfAccounts/AddClassification" method="POST">
+  {{ classificationform.classification() }}
+    <br>
+  {{ classificationform.classificationparent() }}
+    <br>
+    <input type=submit value="Add Classification">
+</form>
+
+<form  action="/Configure/ChartOfAccounts/AddAccount" method="POST">
+  {{ accountform.account() }}
+    <br>
+  {{ accountform.accountparent() }}
+    <br>
+    <input type=submit value="Add Account">
+</form>
+
+<form  action="/Configure/ChartOfAccounts/AddSubAccount" method="POST">
+  {{ subaccountform.subaccount() }}
+    <br>
+  {{ subaccountform.subaccountparent() }}
+    <br>
+    <input type=submit value="Add Sub-Account">
+</form>
+
+<h2>
+  Chart of Accounts
+</h2>
+
+<table border="1">
+  <tr>
+    <th>
+      Element
+    </th>
+    <th>
+      Classification
+    </th>
+    <th>
+    </th>
+    <th>
+      Account
+    </th>
+    <th>
+    </th>
+    <th>
+      Sub-Account
+    </th>
+    <th>
+    </th>
+  </tr>
+{% for subaccount in subaccounts %}
+  <tr>
+    <td>
+      {{subaccount.account.classification.element.name}}
+    </td>
+    <td>
+      {{subaccount.account.classification.name}}
+    </td>
+    <td>
+      <a  href="{{ url_for('delete_classification', classification = subaccount.account.classification.name)}}">
+    Delete
+      </a>
+    </td>
+    <td>
+      {{subaccount.account.name}}
+    </td>
+    <td>
+      <a  href="{{ url_for('delete_account', account = subaccount.account.name)}}">
+    Delete
+      </a>
+    </td>
+    <td>
+      {{subaccount.name}}
+    </td>
+    <td>
+      <a  href="{{ url_for('delete_account', account = subaccounts.name)}}">
+    Delete
+      </a>
+    </td>
+  </tr>
+{% endfor %}
+
+{% endblock %}

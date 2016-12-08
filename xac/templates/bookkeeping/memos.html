@@ -1,0 +1,46 @@
+{% extends "bookkeeping/header_memoranda.html" %}
+{% block memoranda %}
+  <h1>
+    Memos
+  </h1>
+
+  {% if memos %}
+  <p>
+    <a href="{{ url_for('transactions')}}">
+      All Transactions
+    </a>
+  </p>
+    <table border="1">
+      <tr>
+        <th>
+          Date Uploaded
+        </th>
+        <th>
+          Memo Name
+        </th>
+        <th>
+          Transactions
+        </th>
+      </tr>
+      {% for memo in memos %}
+        <tr>
+          <td>
+            {{memo.date}}
+          </td>
+          <td>
+            <a href="{{ url_for('memo_file', fileName = memo.fileName)}}">
+              {{memo.fileName}}
+            </a>
+          </td>
+          <td align="center">
+            <a href="{{ url_for('memo_transactions', fileName = memo.fileName)}}">
+              {{memo.count}}
+            </a>
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+  No memoranda have been recorded.
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends "header_financial_statements.html" %}
+{% block financial_statements %}
+<a href="{{ url_for('statement_of_cash_flows', currency='satoshis', period=period.strftime('%Y-%m'))}}">Satoshis</a>
+<a href="{{ url_for('statement_of_cash_flows', currency='usd', period=period.strftime('%Y-%m'))}}">USD</a>
+<hr>
+<a href="{{ url_for('statement_of_cash_flows', currency=currency, period='Current')}}">Current</a>
+{% for period in periods %}
+<a href='{{ url_for("statement_of_cash_flows", period=period.strftime("%Y-%m"), currency=currency)}}'>{{period.strftime("%Y-%m")}}</a>
+{% endfor %}
+
+  <h1>
+    Statement of Cash Flows
+  </h1>
+    <table border="1">
+      <tr>
+        <th>
+          Cash flows from operating activities
+        </th>
+       </tr>
+       <tr>
+        <td>
+         <i>
+          Inflows
+         </i>
+        </td>
+       </tr>
+       {% for element in elements %}
+       {% for classification in element.classifications %}
+       {% if classification.name == 'Revenues' %}
+       <tr>
+        <td>
+         {{classification.name}}
+        </td>
+        <td>
+         {% if currency == 'satoshis' %}
+        {{format_satoshis(classification.balance)}}
+        {% elif currency == 'usd' %}
+        {{format_usd(classification.balance)}}
+        {% endif %}
+        </td>
+       </tr>
+       {% endif %}
+       {% endfor %}
+       {% endfor %}
+       <tr>
+        <td>
+         <i>
+          Outflows
+         </i>
+        </td>
+       </tr>
+       {% for element in elements %}
+       {% for classification in element.classifications %}
+       {% if classification.name == 'Expenses' %}
+       <tr>
+        <td>
+         {{classification.name}}
+        </td>
+        <td>
+        {% if currency == 'satoshis' %}
+       {{format_satoshis(classification.balance)}}
+       {% elif currency == 'usd' %}
+       {{format_usd(classification.balance)}}
+       {% endif %}
+        </td>
+       </tr>
+       {% endif %}
+       {% endfor %}
+       {% endfor %}
+      <tr>
+        <th>
+          Cash flows from investing activities
+        </th>
+       </tr>
+      <tr>
+        <th>
+          Cash flows from financing activities
+        </th>
+       </tr>
+    </table>
+{% endblock %}

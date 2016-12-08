@@ -1,0 +1,76 @@
+{% extends "header_bookkeeping.html" %}
+{% block bookkeeping %}
+  <h1>
+    Journal Entry
+  </h1>
+  {% if ledger_entries %}
+    <table border="1">
+      <tr>
+        <th>
+          Date
+        </th>
+        <th>
+          Account
+        </th>
+        <th>
+          Debit
+        </th>
+        <th>
+          Credit
+        </th>
+        <td>
+         <a href="{{ url_for('edit_journal_entry', id=journal_entry.id)}}">
+          Edit
+         </a>
+        </td>
+      </tr>
+      {% for entry in ledger_entries %}
+        <tr>
+          <td>
+            {{entry.date}}
+          </td>
+          <td>
+            <a href="{{ url_for('ledger', accountName=entry.ledger, groupby='All', currency='satoshis')}}">
+              {{entry.ledger}}
+            </a>
+          </td>
+          <td>
+            {% if entry.tside == 'debit' %}
+              {% if entry.currency == 'satoshis' %}
+               {{format_satoshis(entry.amount)}}
+              {% elif entry.currency == 'usd' %}
+               {{format_usd(entry.amount)}}
+              {% endif %}
+            {% endif %}
+          </td>
+          <td>
+            {% if entry.tside == 'credit' %}
+              {% if entry.currency == 'satoshis' %}
+               {{format_satoshis(entry.amount)}}
+              {% elif entry.currency == 'usd' %}
+               {{format_usd(entry.amount)}}
+              {% endif %}
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
+  <br>
+  {% if transaction %}
+    <h1>
+      Transaction Detail
+    </h1>
+    {% for key, value in transaction.details.items() %}
+      {{ key }} : {{ value }}
+      <br>
+    {% endfor %}
+  {% endif %}
+  <br>
+  {% if memo %}
+    Memo file: 
+    <a href="{{ url_for('memo_file', fileName = memo.fileName)}}">
+      {{memo.fileName}}
+    </a>
+  {% endif %}
+{% endblock %}

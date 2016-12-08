@@ -1,0 +1,6 @@
+Transactions
+User,user@used.org,000000000000000000000000
+
+Timestamp,Balance,BTC Amount,To,Notes,Instantly Exchanged,Transfer Total,Transfer Total Currency,Transfer Fee,Transfer Fee Currency,Transfer Payment Method,Transfer ID,Order Price,Order Currency,Order BTC,Order Tracking Code,Order Custom Parameter,Order Paid Out,Recurring Payment ID,Coinbase ID (visit https://www.coinbase.com/transactions/[ID] in your browser),Bitcoin Hash (visit https://www.coinbase.com/tx/[HASH] in your browser for more info)
+2013-01-01 06:01:01 -0000,50,50,user@used.org,Coinbase Inbound Test,false,"","","","","","","","","","","","","",000000000000000000000000,""
+2013-12-31 06:01:01 -0000,0.0,-50,user@used.org,Coinbase Outbound Test,false,"","","","","","","","","","","","","",000000000000000000000000,""

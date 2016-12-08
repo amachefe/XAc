@@ -1,0 +1,78 @@
+{% extends "bookkeeping/header_memoranda.html" %}
+{% block memoranda %}
+
+<p>
+These operations are inherently time consuming, please be patient.
+</p>
+<ol>
+ <li>
+<a href="{{ url_for('download_rates')}}">
+  Download Bitstamp USD Exchange Rate Data</a>
+  <br>
+<i>http://api.bitcoincharts.com/v1/csv/bitstampUSD.csv.gz</i>
+ </li>
+ <li>
+<a href="{{ url_for('summarize_rates')}}">
+  Summarize Exchange Rates</a>
+ </li>
+ <li>
+<a href="{{ url_for('import_rates')}}">
+  Import Exchange Rates</a>
+ </li>
+ <li>
+ Calculate gains and losses:<a href="{{ url_for('calc_gains', method='fifo')}}">
+  FIFO</a>, <a href="{{ url_for('calc_gains', method='lifo')}}">
+   LIFO</a>, or <a href="{{ url_for('calc_gains', method='hifo')}}">
+    HiFO</a>.
+ </li>
+
+{% if rate_data %}
+<p>
+  <a href="{{ url_for('transactions')}}">
+    All Transactions
+  </a>
+</p>
+  <table border="1">
+    <tr>
+      <th>
+        Date Uploaded
+      </th>
+      <th>
+        File Name
+      </th>
+      <th>
+        Beginning Date
+      </th>
+      <th>
+        Ending Date
+      </th>
+      <th>
+        Data Points
+      </th>
+    </tr>
+    {% for source in rate_data %}
+      <tr>
+        <td>
+          {{source.date}}
+        </td>
+        <td>
+          {{source.name}}
+        </td>
+        <td>
+          {{source.begdate}}
+        </td>
+        <td>
+          {{source.enddate}}
+        </td>
+        <td align="center">
+          {{source.count}}
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+{% else %}
+No exchange rate data has been imported.
+{% endif %}
+
+
+{% endblock %}

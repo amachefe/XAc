@@ -1,0 +1,9 @@
+{% extends "header_bookkeeping.html" %}
+{% block bookkeeping %}
+<a href="{{url_for('upload_csv')}}">Upload Files</a> - 
+<a href="{{url_for('exchange_rates')}}">Exchange Rates</a> -
+<a href="{{url_for('memoranda')}}">Memos</a> - 
+<a href="{{url_for('transactions')}}">Memo Transactions</a>
+<hr>
+{% block memoranda %}{% endblock %}
+{% endblock %}

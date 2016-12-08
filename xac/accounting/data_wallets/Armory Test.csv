@@ -1,0 +1,11 @@
+Export Date:, 2013-Dec-31 01:50pm
+Total Funds:, 0
+Spendable Funds:, 0
+Unconfirmed Funds:, 0
+
+Included Wallets:
+000000000,Primary Wallet
+
+Date,Transaction ID,#Conf,Wallet ID,Wallet Name,Credit,Debit,Fee (paid by this wallet),Wallet Balance,Total Balance,Label
+2013-Jan-01 01:01am,0000000000000000000000000000000000000000000000000000000000000000,39,000000000,Primary Wallet,50,,,        50.00000000,        50.00000000,""
+2013-Dec-31 01:01am,0000000000000000000000000000000000000000000000000000000000000000,8,000000000,Primary Wallet,,50.0001,0.00010000,        0.00000000,        0.00000000,"Testing Armory"

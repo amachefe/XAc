@@ -1,0 +1,97 @@
+{% extends "header_financial_statements.html" %}
+{% block financial_statements %}
+<a href="{{ url_for('balance_sheet', currency='satoshis')}}">Satoshis</a>
+<a href="{{ url_for('balance_sheet', currency='usd')}}">USD</a>
+<hr>
+<a href="{{ url_for('balance_sheet', currency=currency)}}">Current</a>
+{% for period in periods %}
+<a href='{{ url_for("balance_sheet_historical", period=period.strftime("%Y-%m"), currency=currency)}}'>{{period.strftime("%Y-%m")}}</a>
+{% endfor %}
+<hr>
+ <h2>
+  Balance Sheet
+ </h2>
+ <h3>
+  As of {{period.strftime("%B %d, %Y")}}
+ </h3>
+ {% for element in elements %}
+  <h4> 
+   {{element.name}}
+  </h4>
+  {% if element.balance != 0 %}
+    <table border="1">
+      <tr>
+        <th>
+        </th>
+        <th>
+         Balance
+        </th>
+      </tr>
+      <tbody>
+        {% for classification in element.classifications %}
+        {% if classification.balance != 0 %}
+         <tr>
+         <td>
+        <b>{{classification.name}}</b>
+         </td>
+        </tr>
+        {% for account in classification.accounts %}
+        {% if account.balance != 0 %}
+        <tr>
+        <td>
+       <i>{{account.name}}</i>
+        </td>
+       </tr>
+       {% for subaccount in account.subaccounts %}
+       {% if subaccount.balance != 0 %}
+        <tr>
+         <td>
+          {{subaccount.name}}
+         </td>
+         <td>
+          {% if currency == 'satoshis' %}
+         {{format_satoshis(subaccount.balance)}}
+         {% elif currency == 'usd' %}
+         {{format_usd(subaccount.balance)}}
+         {% endif %}
+         </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    No {{element.name}}
+    {% endif %}
+   {% endfor %}
+   <h4> 
+    Equity
+   </h4>
+   <table border="1">
+     <tr>
+       <th>
+       </th>
+       <th>
+        Balance
+       </th>
+     </tr>
+     <tbody>
+        <tr>
+        <td>
+       <b>Retained Earnings</b>
+        </td>
+        <td>
+         {% if currency == 'satoshis' %}
+        {{format_satoshis(retained_earnings)}}
+        {% elif currency == 'usd' %}
+        {{format_usd(retained_earnings)}}
+        {% endif %}
+        </td>
+       </tr>
+     </tbody>
+   </table>
+{% endblock %}

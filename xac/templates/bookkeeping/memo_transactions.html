@@ -1,0 +1,52 @@
+{% extends "bookkeeping/header_memoranda.html" %}
+{% block memoranda %}
+
+  <h1>
+    Memo Transactions
+  </h1>
+  <p>
+    {% if fileName %}
+    <a href="{{ url_for('memo_file', fileName = fileName)}}">
+      See Original File
+    </a>
+    {% endif %}
+  </p>
+  {% if transactions %}
+    <table border="1">
+      <tr>
+        <th>
+          ID
+        </th>
+        <th>
+          Details
+        </th>
+        <th>
+         Bitcoin Transaction ID
+        </th>
+      </tr>
+      {% for transaction in transactions %}
+      <tr>
+        <td valign="top">
+          {{transaction.id}}
+        </td>
+        <td>
+          {% for key, value in transaction.details.items() %}
+            {{ key }} : {{ value }}
+            <br>
+          {% endfor %}
+        </td>
+        <td>
+         {{transaction.txid}}
+        </td>
+        <td>
+          <a href="{{ url_for('journal_entry', id = transaction.journal_entry_id)}}">
+            Journal Entry
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+  No memorandum transactions have been recorded.
+  {% endif %}
+{% endblock %}

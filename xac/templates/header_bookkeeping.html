@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<a href="{{url_for('upload_csv')}}">Memoranda</a> - 
+<a href="{{url_for('general_journal', currency='satoshis')}}">General Journal</a> - 
+<a href="{{url_for('general_ledger', currency='satoshis')}}">General Ledger</a> - 
+<a href="{{url_for('trial_balance', currency='satoshis')}}">Trial Balance</a>
+<hr>
+{% block bookkeeping %}{% endblock %}
+{% endblock %}
